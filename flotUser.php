@@ -186,7 +186,7 @@ else{
       </div>
       <div class="col-md-3 col-sm-6 col-12">
         <div class="info-box shadow">
-          <span class="info-box-icon bg-lightblue"><i class="far fa-chart-bar"></i></span>
+          <span class="info-box-icon bg-olive"><i class="far fa-chart-bar"></i></span>
 
           <div class="info-box-content">
             <span class="info-box-text">Tendencia al Riesgo</span>
@@ -204,8 +204,7 @@ else{
       <!-- /.col -->
       <div class="col-md-3 col-sm-6 col-12">
         <div class="info-box shadow">
-          <span class="info-box-icon bg-lightblue"><i class="fas fa-gamepad"></i></span>
-
+          <span class="info-box-icon bg-teal"><i class="fas fa-gamepad"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Niveles Completados</span>
             <span class="info-box-number">
@@ -235,6 +234,35 @@ else{
         </div>
         <!-- /.info-box -->
       </div>
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box shadow">
+          <span class="info-box-icon bg-warning"><i class="fas fa-star"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Score Total</span>
+            <span class="info-box-number">
+              <?php
+                $count= 0;
+                foreach ($data as $key => $value) {
+                  foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
+                    if($idJugador == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
+                      foreach ($data[$key]["resultadoJugadores"][$jugador]["niveles"] as $nivel => $value) {
+                        if($data[$key]["resultadoJugadores"][$jugador]["niveles"][$nivel] != null) {
+                          $count += $data[$key]["resultadoJugadores"][$jugador]["niveles"][$nivel]["puntaje"];
+                        }
+                      }
+                    }
+                  }
+                }
+                echo $count;
+              ?>
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
 
 
     <div class="row">
