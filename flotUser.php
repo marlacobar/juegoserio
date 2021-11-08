@@ -202,7 +202,38 @@ else{
         <!-- /.info-box -->
       </div>
       <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box shadow">
+          <span class="info-box-icon bg-lightblue"><i class="fas fa-gamepad"></i></span>
 
+          <div class="info-box-content">
+            <span class="info-box-text">Niveles Completados</span>
+            <span class="info-box-number">
+              <?php
+                $count= 0;
+                foreach ($data as $key => $value) {
+                  foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
+                    if($idJugador == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
+                      // print_r($data[$key]["resultadoJugadores"][$jugador]["ultimoNivel"]);
+                      foreach ($data[$key]["resultadoJugadores"][$jugador]["niveles"] as $nivel => $value) {
+                        if($data[$key]["resultadoJugadores"][$jugador]["niveles"][$nivel] != null) {
+                          // print_r($data[$key]["resultadoJugadores"][$jugador]["niveles"][$nivel]["murio"]);
+                          // echo " - ";
+                          if($data[$key]["resultadoJugadores"][$jugador]["niveles"][$nivel]["murio"] == 0) {
+                            $count++;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                echo $count;
+              ?>
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
       </div>
 
 
@@ -255,21 +286,6 @@ else{
               <!-- /.card-body-->
             </div>
             <!-- /.card -->
-          </div>
-          <div class="col-12">
-            <h3>
-              <?php
-              $count= 0;
-              foreach ($data as $key => $value) {
-                foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
-                  if($idJugador == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
-                    // print_r($data[$key]["resultadoJugadores"][$jugador]["idJugador"]);
-                    // echo "\n" ;
-                    $count++;
-                  }                  
-                }
-              }
-              ?></h3>
           </div>
           <!-- /.col -->
         </div>
