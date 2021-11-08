@@ -13,6 +13,7 @@ $IdMaximo = 0;
   $response = curl_exec($ch);
   curl_close($ch);
   $data2 = json_decode($response2,true);
+  $data = json_decode($response,true);
   $email;
   $id_usuario;
   $username;
@@ -59,25 +60,16 @@ $IdMaximo = 0;
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="home.php" class="nav-link">Inicio</a>
       </li>
-      <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li> -->
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
         </a>
       </li>
     </ul>
@@ -100,7 +92,7 @@ $IdMaximo = 0;
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
               <li class="breadcrumb-item active">Usuarios</li>
             </ol>
           </div>
@@ -116,18 +108,18 @@ $IdMaximo = 0;
             
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">DataTable with default features</h3>
+                <!-- <h3 class="card-title">DataTable with default features</h3> -->
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example2" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>ID</th>
                     <th>Usuario</th>
                     <th>Email</th>
-                    <th><!--Engine version--></th>
-                    <th><!--CSS grade--></th>
+                    <th>Partidas Jugadas</th>
+                    <th>Tendencia al Riesgo</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -145,7 +137,7 @@ $IdMaximo = 0;
                     <tr><td><?php echo @$id; ?></td>
                     <td>
                       <?php
-                        echo "<a href='flot.php?id=$id'>"
+                        echo "<a href='flotUser.php?id=$id'>"
                       ?>
                       <?php
                         echo @$value['username'];
@@ -153,7 +145,23 @@ $IdMaximo = 0;
                       <?php "</a>";  ?>
                     </td>
                     <td><?php echo @$value['email']; ?></td>
-                    <td></td><td></td></tr>
+                    <td>
+                    <?php
+                      $count= 0;
+                      foreach ($data as $key => $value) {
+                        foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
+
+                          if($id == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
+                            // print_r($data[$key]["resultadoJugadores"][$jugador]["idJugador"]);
+                            // echo "\n" ;
+                            $count++;
+                          }                  
+                        }
+                      }
+                      echo $count; 
+                    ?>
+                    </td>
+                    <td></td></tr>
                     <?php
                     }
                     ?>

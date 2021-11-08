@@ -37,7 +37,7 @@ $IdMaximo = 0;
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Juego Serio | Home</title>
+  <title>Juego Serio | Inicio</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -60,25 +60,16 @@ $IdMaximo = 0;
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="home.php" class="nav-link">Home</a>
+        <a href="home.php" class="nav-link">Inicio</a>
       </li>
-      <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li> -->
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
         </a>
       </li>
     </ul>
@@ -97,11 +88,11 @@ $IdMaximo = 0;
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Home</h1>
+            <h1>Inicio</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Inicio</a></li>
             </ol>
           </div>
         </div>
@@ -114,7 +105,7 @@ $IdMaximo = 0;
         <div class="row">
           <div class="col-lg-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-lightblue">
               <div class="inner">
                 <h3>
                   <?php
@@ -135,7 +126,7 @@ $IdMaximo = 0;
           <!-- /.col -->
           <div class="col-lg-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-teal">
               <div class="inner">
                 <h3>
                   <?php
@@ -153,8 +144,26 @@ $IdMaximo = 0;
               <a class="small-box-footer"></a>
             </div>            
           </div>
-        </div>
+          <!-- /.col -->
+          <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-olive">
+              <div class="inner">
+                <h3>
+                  <?php
+                    echo 0;
+                  ?>
+                </h3>
+                <p>Promedio de Tendencia al Riesgo</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <a class="small-box-footer"></a>
+            </div>            
+          </div>
         <!-- /.col -->
+        </div>        
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -200,21 +209,6 @@ $IdMaximo = 0;
 <script src="dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
 </script>
 </body>
 </html>

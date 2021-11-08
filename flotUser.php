@@ -27,12 +27,12 @@ else{
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $response = curl_exec($ch);
   curl_close($ch);
+  $data = json_decode($response,true);
   $data2 = json_decode($response2,true);
   foreach ($data2 as $key2 => $value){
       if($IdMaximo< $key2)
           $IdMaximo = $key2;
   }
-  $data = json_decode($response,true);
   $level;
   $nivel_maximo = 1;
   $contador_nivel = 1;
@@ -85,6 +85,9 @@ else{
     );
     $contador_nivel ++;
   }
+  // OBTENER EL ID DEL JUGADOR
+  $idJugador=$_GET['id'];
+  $username
 ?>
 
 <!DOCTYPE html>
@@ -155,21 +158,83 @@ else{
 
     <!-- Main content -->
     <section class="content">
-      
-  <!-- <div>
-    <p> 
-      <?php
-        $v1=$_GET['id'];
-        echo $v1;
-      ?>
-    </p>
-  </div> -->
+    <div class="row">
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box shadow">
+          <span class="info-box-icon bg-lightblue"><i class="fas fa-gamepad"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Partidas Jugadas</span>
+            <span class="info-box-number">
+              <?php
+                $count= 0;
+                foreach ($data as $key => $value) {
+                  foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
+
+                    if($idJugador == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
+                      $count++;
+                    }                  
+                  }
+                }
+                echo $count;
+              ?>
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box shadow">
+          <span class="info-box-icon bg-lightblue"><i class="far fa-chart-bar"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Tendencia al Riesgo</span>
+            <span class="info-box-number">
+              <?php
+                $count= 0;
+                echo $count;
+              ?>
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+
+      </div>
+
+
+    <div class="row">
+      <!-- Left col -->
+      <div class="card card-lightblue">
+        <div class="card-header">
+          <h3 class="card-title">Enemigos</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="enemiesBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
 <!--********************************INICIA FLOT ENEMIGOS***********************************-->
       <div class="container-fluid">
        <div class="row">
           <div class="col-12">
             <!-- Line chart -->
-            <div class="card card-primary card-outline">
+            <div class="card card-lightblue card-outline">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="far fa-chart-bar"></i>
@@ -189,8 +254,22 @@ else{
               </div>
               <!-- /.card-body-->
             </div>
-
             <!-- /.card -->
+          </div>
+          <div class="col-12">
+            <h3>
+              <?php
+              $count= 0;
+              foreach ($data as $key => $value) {
+                foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
+                  if($idJugador == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
+                    // print_r($data[$key]["resultadoJugadores"][$jugador]["idJugador"]);
+                    // echo "\n" ;
+                    $count++;
+                  }                  
+                }
+              }
+              ?></h3>
           </div>
           <!-- /.col -->
         </div>
@@ -199,7 +278,7 @@ else{
         <div class="row">
           <div class="col-12">
             <!-- Line chart -->
-            <div class="card card-primary card-outline">
+            <div class="card card-lightblue card-outline">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="far fa-chart-bar"></i>
@@ -458,7 +537,7 @@ else{
       /*setInterval(function(){
      window.location.reload(true);
       },1000);*/
-    var url = "flot.php"; // URL a la cual enviar los datos
+    var url = "flotUser.php"; // URL a la cual enviar los datos
     enviarDatos(datos, url); // Ejecutar cuando se quiera enviar los datos
     function enviarDatos(datos, url){
       $.ajax({
@@ -489,6 +568,61 @@ function labelFormatter(label, series) {
     + '<br>'
     + Math.round(series.percent) + '%</div>'
 }
+
+
+//-----
+$(function() {
+  var barChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+      {
+        label               : 'Enemigos Total',
+        backgroundColor     : 'rgba(60,141,188,0.9)',
+        borderColor         : 'rgba(60,141,188,0.8)',
+        pointRadius          : false,
+        pointColor          : '#3b8bba',
+        pointStrokeColor    : 'rgba(60,141,188,1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(60,141,188,1)',
+        data                : [28, 48, 40, 19, 86, 27, 90]
+      },
+      {
+        label               : 'Enemigos Muertos',
+        backgroundColor     : 'rgba(210, 214, 222, 1)',
+        borderColor         : 'rgba(210, 214, 222, 1)',
+        pointRadius         : false,
+        pointColor          : 'rgba(210, 214, 222, 1)',
+        pointStrokeColor    : '#c1c7d1',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(220,220,220,1)',
+        data                : [65, 59, 80, 81, 56, 55, 40]
+      },
+    ]
+  }
+
+
+  //---------------------
+  //- ENEMIES BAR CHART -
+  //---------------------
+  var enemiesbarChartCanvas = $('#enemiesBarChart').get(0).getContext('2d')
+    var enemiesbarChartData = $.extend(true, {}, barChartData)
+    var temp0 = barChartData.datasets[0]
+    var temp1 = barChartData.datasets[1]
+    enemiesbarChartData.datasets[0] = temp0
+    enemiesbarChartData.datasets[1] = temp1
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    }
+
+    new Chart(enemiesbarChartCanvas, {
+      type: 'bar',
+      data: enemiesbarChartData,
+      options: barChartOptions
+    })
+  })
 
 </script>
 
