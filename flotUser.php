@@ -322,31 +322,6 @@ while($data2= mysqli_fetch_array($size_arreglo1)){
         <!-- /.info-box -->
       </div>
       <!-- /.col -->
-
-
-    <div class="row">
-      <!-- Left col -->
-      <div class="card card-lightblue">
-        <div class="card-header">
-          <h3 class="card-title">Enemigos</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="enemiesBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-          </div>
-        </div>
-        <!-- /.card-body -->
-      </div>
-    </div>
 <!--********************************INICIA FLOT ENEMIGOS***********************************-->
       <div class="container-fluid">
        <div class="row">
