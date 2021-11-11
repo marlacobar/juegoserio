@@ -149,14 +149,16 @@ $IdMaximo = 0;
                     <?php
                       $count= 0;
                       foreach ($data as $key => $value) {
-                        foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
-
-                          if($id == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
-                            // print_r($data[$key]["resultadoJugadores"][$jugador]["idJugador"]);
-                            // echo "\n" ;
-                            $count++;
-                          }                  
+                        if ($data[$key] && $data[$key]["resultadoJugadores"]){
+                          foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
+                            if($id == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
+                              // print_r($data[$key]["resultadoJugadores"][$jugador]["idJugador"]);
+                              // echo "\n" ;
+                              $count++;
+                            }                  
+                          }
                         }
+                        
                       }
                       echo $count; 
                     ?>

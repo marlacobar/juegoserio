@@ -26,10 +26,23 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="flot.php" class="nav-link">
+            <a href="predicciones.php" class="nav-link">
               <i class="nav-icon fas fa-chart-area"></i>
               <p>Predicciones</p>
             </a>
-          </li>                  
+          </li> 
+          <li class="nav-item">
+            <a href="flot.php" class="nav-link">
+              <i class="nav-icon fas fa-chart-area"></i>
+              <p>Demostracion</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="actualizadb.php" class="nav-link">
+              <i class="nav-icon fas fa-chart-area"></i>
+              <p>Reiniciar IA</p>
+            </a>
+          </li>
+            
       <!-- /.sidebar-menu -->
     </div>

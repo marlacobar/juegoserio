@@ -1,4 +1,6 @@
 <?php
+include "connections/local.php";
+$link = Conectarse();
 $recibio = 0;
 $arrayRecibidoEnemigos1 = [];
 $arrayRecibidoEnemigos2 = [];
@@ -13,6 +15,75 @@ if(isset($_POST['enemigos1'])){
 }
 else{
   @$recibio = 0;
+}
+$idJugador=$_GET['id'];
+
+$SQL_JUGADAS = "SELECT * FROM `jugadas` WHERE `idJugador` = $idJugador";
+//echo $SQL_JUGADAS;
+$sql = mysqli_query($link,$SQL_JUGADAS);
+//echo "<pre>";
+//var_dump($sql);
+ //echo "</pre>";
+
+  $idPartida = array();
+  $enemigosTotal = array();
+  $enemigosMuertos = array();
+  $monedasObtenidas = array();
+  $monedasTotal = array();
+  $murio = array();
+  $puntaje = array();
+  $segundos = array();
+  $puzzlesCompletados = array();
+  $puzzlesEvadidos = array();
+while($data= mysqli_fetch_array($sql)){
+  $idPartida[] = intval($data['idPartida']);
+  $enemigosTotal[] = intval($data['enemigosTotal']);
+  $enemigosMuertos[] = intval($data['enemigosMuertos']);
+  $monedasObtenidas[] = intval($data['monedasObtenidas']);
+  $monedasTotal[] = intval($data['monedasTotal']);
+  $murio[] = intval($data['murio']);
+  $puntaje[] = intval($data['puntaje']);
+  $segundos[] = intval($data['segundos']);
+  $puzzlesCompletados[] = intval($data['puzzlesCompletados']);
+  $puzzlesEvadidos[] = intval($data['puzzlesEvadidos']);
+}
+$SQLSIZE = "SELECT count(*) total FROM `jugadas` WHERE `idJugador` = $idJugador;";
+
+//echo $SQLSIZE;
+$size_arreglo1 = mysqli_query($link,$SQLSIZE);
+  while($data2= mysqli_fetch_array($size_arreglo1)){
+  $size_arreglo = intval($data2[0]);
+}
+
+$sizetemp = $size_arreglo +1;
+$SQL_JUGADAS2= "SELECT * FROM `ia` ;";
+$sql2 = mysqli_query($link,$SQL_JUGADAS2);
+//echo "<pre>";
+//var_dump($sql);
+ //echo "</pre>";
+  $idPartida2[] = array();
+  $enemigosTotal2 = array();
+  $enemigosMuertos2 = array();
+  $monedasObtenidas2 = array();
+  $monedasTotal2 = array();
+  $murio2 = array();
+  $puntaje2 = array();
+  $segundos2 = array();
+  $puzzlesCompletados2 = array();
+  $puzzlesEvadidos2 = array();
+while($data2= mysqli_fetch_array($sql2)){
+  
+  $idPartida2[] = $sizetemp;
+  $enemigosTotal2[] = intval($data2['enemigos_total']);
+  $enemigosMuertos2[] = intval($data2['enemigos_muertos']);
+  $monedasObtenidas2[] = intval($data2['monedas_obtenidas']);
+  $monedasTotal2[] = intval($data2['monedas_total']);
+  $sizetemp=$sizetemp+1;
+}
+$SQLSIZE = "SELECT count(*) total FROM `ia`";
+$size_arreglo1 = mysqli_query($link,$SQLSIZE);
+while($data2= mysqli_fetch_array($size_arreglo1)){
+  $size_arreglo2 = intval($data2[0]);
 }
   $IdMaximo = 0;
   $url2 = "https://modulargame-5ef83-default-rtdb.firebaseio.com/usuarios.json";
@@ -41,7 +112,6 @@ else{
           $nivel_maximo = @$data[$key]["resultadoJugadores"][$jugador]["niveles"][$nivel];
       }
   }
-  $id_jugador;
   $id_partida;
   $enemigos ;
   $enemigos_muertos ;
@@ -86,7 +156,7 @@ else{
     $contador_nivel ++;
   }
   // OBTENER EL ID DEL JUGADOR
-  $idJugador=$_GET['id'];
+  
   $username
 ?>
 
@@ -103,7 +173,7 @@ else{
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+  <script src="dist/tf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -166,18 +236,7 @@ else{
           <div class="info-box-content">
             <span class="info-box-text">Partidas Jugadas</span>
             <span class="info-box-number">
-              <?php
-                $count= 0;
-                foreach ($data as $key => $value) {
-                  foreach ($data[$key]["resultadoJugadores"] as $jugador => $value) {
-
-                    if($idJugador == $data[$key]["resultadoJugadores"][$jugador]["idJugador"]) {
-                      $count++;
-                    }                  
-                  }
-                }
-                echo $count;
-              ?>
+              <?php echo $size_arreglo;?>
             </span>
           </div>
           <!-- /.info-box-content -->
@@ -387,20 +446,46 @@ else{
 <script src="dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
+  //console.log(<?php echo json_encode( $idPartida2 )?>);
+  var valX2= <?php echo json_encode( $idPartida2 )?>;
+  //console.log(valX2);
+//************** Se crean los arreglos ************************************************
+  //Arreglos de enemigos
+  var valY22 = <?php echo json_encode( $enemigosMuertos2 )?>;
+  var valY222 = <?php echo json_encode( $enemigosTotal2 )?>;
+//console.log(valY2);
+  //Arreglos de Monedas
+  var valmonedas12 = <?php echo json_encode( $monedasObtenidas2 )?>;
+  var valmonedas22 =<?php echo json_encode( $monedasTotal2 )?>;
+ // console.log(valmonedas22);
+//************** Se crean los arreglos para las tablas*********************************
+  //Areglo tabla enemigos
+  var sin2 = [],cos2 = [];
+  //Arreglo tabla monedas
+  var sinmoneda2 = [],cosmoneda2 = [];
+
+    for (var i = 0; i < <?php echo @$size_arreglo2?>; i += 1) {
+    sin2.push([valX2[i],valY22[i]]);
+    cos2.push([valX2[i],valY222[i]]);
+    sinmoneda2.push([valX2[i],valmonedas12[i]]);
+    cosmoneda2.push([valX2[i],valmonedas22[i]]);
+    }
+
   var partida = [];
-  for (i=1; i<= <?php echo @$matriz?>; i++){
+  for (i=1; i<= <?php echo@$size_arreglo?>; i++){
       partida.push(i);
   }
   var valX= partida;
+  console.log(partida);
 //************** Se crean los arreglos ************************************************
   //Arreglos de enemigos
-  var valY = <?php echo json_encode( $enemigos_muertos )?>;
-  var valY2 = <?php echo json_encode( $enemigos )?>;
+  var valY = <?php echo json_encode( $enemigosMuertos )?>;
+  var valY2 = <?php echo json_encode( $enemigosTotal )?>;
 
   //Arreglos de Monedas
-  var valmonedas1 = <?php echo json_encode( $monedas_obtenidas )?>;
-  var valmonedas2 =<?php echo json_encode( $monedas_total )?>;
-
+  var valmonedas1 = <?php echo json_encode( $monedasObtenidas )?>;
+  var valmonedas2 =<?php echo json_encode( $monedasTotal )?>;
+  //  console.log(valmonedas1);
 //************** Se crean los arreglos para las tablas*********************************
   //Areglo tabla enemigos
   var sin = [],cos = [];
@@ -413,13 +498,14 @@ else{
     sinmoneda = <?php echo json_encode( $arrayRecibidoMonedas2 )?>;
   }
   else{
-    for (var i = 0; i < <?php echo @$matriz?>; i += 1) {
+    for (var i = 0; i < <?php echo @$size_arreglo?>; i += 1) {
     sin.push([valX[i],valY[i]]);
     cos.push([valX[i],valY2[i]]);
     sinmoneda.push([valX[i],valmonedas1[i]]);
     cosmoneda.push([valX[i],valmonedas2[i]]);
     }
   }
+  //console.log(cosmoneda);
 /******************************LINEAS DE CADA GRAFICA ************************************/
 /******************************LINEAS ENEMIGOS*****************************************/
   var line_data1 = {
@@ -474,19 +560,23 @@ else{
 
 
       window.onload=async function learnLinear(){
-      console.log("minimo entra aqui2");
-      var contador = <?php echo @$matriz?>  ;
+      //console.log("minimo entra aqui2");
+      var contador = <?php echo @$size_arreglo?>  ;
       var contador2 = contador;
       var contador_monedas = contador;
-      var nuevoValX = contador + ( contador / 2);
-      
+      var nuevoValX = parseInt(contador + ( contador / 2))  ;
+      //console.log(nuevoValX)
       while ( contador < nuevoValX ){
 //*************** Constantes y variables para completar los tensores y predicciones***************
-          const learningRate = 0.0001;
+          const learningRate = 0.000000000000001;
           const optimizer2 = tf.train.sgd(learningRate);
-          var epocas = 1000;
-          const valorX = tf.tensor1d([contador]);
-          const xs = tf.tensor1d(valX)
+          var epocas = 50;
+          const valXnew = valX.concat(valX2);
+          valXnew.pop();
+          const valorX = tf.tensor1d([contador],"int32");
+          //console.log( tf.tensor1d([contador],"int32"));
+          const xs = tf.tensor1d(valXnew,"int32")
+          //console.log(valX3);
 //***************Se definen todos los modelos****************************************************
           // Modelo de enemigos
           const model = tf.sequential();
@@ -496,8 +586,8 @@ else{
           const modelmonedas2 = tf.sequential();
 //***************Se agregan las capas densas de los modelos**************************************
           //Capas densas de enemigos
-          model.add(tf.layers.dense({units: 1, inputShape: [1]}));
-          model2.add(tf.layers.dense({units: 1, inputShape: [1]}));
+          model.add(tf.layers.dense({units: 1, inputShape: [1],}));
+          model2.add(tf.layers.dense({units: 1, inputShape: [1],}));
           //Capas densas de monedas
           modelmonedas.add(tf.layers.dense({units: 1, inputShape: [1]}));
           modelmonedas2.add(tf.layers.dense({units: 1, inputShape: [1]}));
@@ -510,45 +600,66 @@ else{
           modelmonedas2.compile({loss: 'meanSquaredError', optimizer: optimizer2});       
 //***************Creamos los tensores para x y para y para todas las tablas************************
           //Tensores Enemigos
-          const ys = tf.tensor1d(valY);
-          const ys2 = tf.tensor1d(valY2);
+          const valYnew = valY.concat(valY22);
+          const valY2new = valY2.concat(valY222);
+          const ys = tf.tensor1d(valYnew,"int32");
+          const ys2 = tf.tensor1d(valY2new,"int32");
+
           //Tensores Monedas
-          const ysmonedas = tf.tensor1d(valmonedas1);
-          const ysmonedas2 = tf.tensor1d(valmonedas2);          
+          const valmonedas1new = valmonedas1.concat(valmonedas12);
+          const valmonedas2new = valmonedas2.concat(valmonedas22);
+          //console.log(valmonedas1new);
+          //console.log(valmonedas2new);
+          const ysmonedas = tf.tensor1d(valmonedas1new,"int32");
+          const ysmonedas2 = tf.tensor1d(valmonedas2new,"int32");
+          //console.log(tf.tensor1d(valmonedas2new,"int32"));  
+          //console.log(valmonedas2new);        
 //***************Ciclo que va ir ajustando el calculo*******************************************
           for (i = 0; i < epocas ; i++) {
 // **************Entrenamos los modelos *******************************************************
               //Entrenamiento de los modelos de enemigos
-              await model.fit(xs, ys, {epochs: 1});
-              await model2.fit(xs, ys2, {epochs: 1});
+              await model.fit(xs, ys, {epochs: 5});
+              await model2.fit(xs, ys2, {epochs: 5});
               //Entramiento de los modelos de monedas
-              await modelmonedas.fit(xs, ysmonedas, {epochs: 1});
-              await modelmonedas2.fit(xs, ysmonedas2, {epochs: 1});
+              await modelmonedas.fit(xs, ysmonedas, "int32",{epochs: 5});
+              await modelmonedas2.fit(xs, ysmonedas2, "int32",{epochs: 5});
+
+              //console.log(modelmonedas2.fit(xs, ysmonedas2,  {epochs: 5}))
 // **************Se encuentran las predicciones ***********************************************
               //Prediccion de enemigos
-              prediccionY = model.predict(valorX).dataSync();
-              prediccionY2 = model2.predict(valorX).dataSync();
+              prediccionY = model.predict(valorX).asType("int32").dataSync();
+              prediccionY2 = model2.predict(valorX).asType("int32").dataSync();
+              //console.log( model2.predict(valorX).asType("int32").dataSync());
               //Prediccion de monedas
-              prediccionmonedasY = modelmonedas.predict(valorX).dataSync();
-              prediccionmonedasY2 = modelmonedas2.predict(valorX).dataSync();
+              prediccionmonedasY = modelmonedas.predict(valorX).asType("int32").dataSync();
+              prediccionmonedasY2 = modelmonedas2.predict(valorX).asType("int32").dataSync();
+              //console.log("Entra " + i + " veces");
+              //console.log(prediccionmonedasY);
+              //console.log(prediccionmonedasY2);
           }
-          if( prediccionY > 0 ){
-            prediccionYint = parseInt(prediccionY);
-            prediccionYint2 = parseInt(prediccionY2);
-            sin.push([contador2,prediccionYint]);
-            cos.push([contador2,prediccionYint2]);
-            contador2++;       
-          }
-          if ( prediccionmonedasY > 0 ){
-            prediccionmonedasYint = parseInt(prediccionmonedasY);
-            prediccionmonedasYint2 = parseInt(prediccionmonedasY2);
-            sinmoneda.push([contador2,prediccionmonedasYint]);
-            cosmoneda.push([contador2,prediccionmonedasYint2]);
-            contador_monedas++; 
-          }
-          console.log("SE AGREGARON EN LAS 4 ARRAYS")
+              prediccionYint = parseInt(prediccionY);
+              prediccionYint2 = parseInt(prediccionY2);
+              prediccionmonedasYint = parseInt(prediccionmonedasY);
+              prediccionmonedasYint2 = parseInt(prediccionmonedasY2);
+            if( prediccionYint2 > 0 && prediccionmonedasYint2 > 0){
+
+              sin.push([contador2,prediccionYint]);
+              cos.push([contador2,prediccionYint2]);
+              contador2++;
+              
+              sinmoneda.push([contador2,prediccionmonedasYint]);
+              cosmoneda.push([contador2,prediccionmonedasYint2]);
+              contador_monedas++; 
+
+            }
+            
+          
           contador = contador+1;
+          console.log(cosmoneda);
+         console.log(sinmoneda);
       }
+      //console.log(cosmoneda);
+         // console.log(sinmoneda);
 /******************Se preparan las variables para enviar por POST ***************************/
     var variable_enemigos1 = JSON.stringify(sin);
     var variable_enemigos2 =JSON.stringify(cos);
@@ -581,7 +692,7 @@ else{
       /*setInterval(function(){
      window.location.reload(true);
       },1000);*/
-    var url = "flotUser.php"; // URL a la cual enviar los datos
+    var url = "flotUser.php?id="+<?php echo $idJugador?>; // URL a la cual enviar los datos
     enviarDatos(datos, url); // Ejecutar cuando se quiera enviar los datos
     function enviarDatos(datos, url){
       $.ajax({

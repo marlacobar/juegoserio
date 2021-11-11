@@ -54,7 +54,7 @@ else{
   while ($contador_nivel <= $nivel_maximo){
     $contador = 1;
     foreach ($data as $key => $value) {
-      if ($data[$key]["resultadoJugadores"]){
+      if ($data[$key] && $data[$key]["resultadoJugadores"]){
         foreach (@$data[$key]["resultadoJugadores"] as $jugador => $value) {
           foreach(@$data[$key]["resultadoJugadores"][$jugador]["niveles"] as $nivel => $value ){  
             if ($nivel ==  $contador_nivel){
@@ -92,7 +92,7 @@ else{
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Juego Serio | Predicciones</title>
+  <title>Juego Serio | Demostración</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -141,12 +141,12 @@ else{
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Predicciones</h1>
+            <h1>Demostración</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-              <li class="breadcrumb-item active">Predicciones</li>
+              <li class="breadcrumb-item active">Demostración</li>
             </ol>
           </div>
         </div>
@@ -273,7 +273,8 @@ else{
   //Arreglos de enemigos
   var valY = <?php echo json_encode( $enemigos_muertos )?>;
   var valY2 = <?php echo json_encode( $enemigos )?>;
-
+  console.log(valX);
+console.log(valY);
   //Arreglos de Monedas
   var valmonedas1 = <?php echo json_encode( $monedas_obtenidas )?>;
   var valmonedas2 =<?php echo json_encode( $monedas_total )?>;
@@ -423,7 +424,7 @@ else{
             cosmoneda.push([contador2,prediccionmonedasYint2]);
             contador_monedas++; 
           }
-          console.log("SE AGREGARON EN LAS 4 ARRAYS")
+          console.log("SE AGREGARON EN LAS 4 ARRAYS");
           contador = contador+1;
       }
 /******************Se preparan las variables para enviar por POST ***************************/
